@@ -35,7 +35,7 @@ public class CustomMappingExceptionResolver extends SimpleMappingExceptionResolv
 
 		ModelAndView mav = super.doResolveException(request, response, handler, e);
 		
-		errorInfo.setError("Error desconocido");
+		errorInfo.setError("Error inesperado");
 		errorInfo.setMessageForUser(e.getMessage());
 		errorInfo.setNameClass(e.getClass().toString());
 		errorInfo.setStackTrace(StackTraceManager.getStackTrace(e));

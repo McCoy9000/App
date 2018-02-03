@@ -86,7 +86,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public AccessDeniedHandler accessDeniedHandler() {
 		CustomAccessDeniedHandler handler = new CustomAccessDeniedHandler();
-		handler.setErrorPage("/WEB-INF/error.jsp");
+		handler.setErrorPage("error");
 		return handler;
 	}
 	

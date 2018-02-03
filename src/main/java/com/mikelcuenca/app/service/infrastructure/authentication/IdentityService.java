@@ -6,12 +6,12 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.mikelcuenca.app._model.application.usuario.Permission;
 import com.mikelcuenca.app._model.application.usuario.Role;
 import com.mikelcuenca.app._model.application.usuario.Usuario;
+import com.mikelcuenca.app._model.infrastructure._exceptions.GenericException;
 import com.mikelcuenca.app._model.infrastructure.authentication.Identity;
 import com.mikelcuenca.app._model.infrastructure.authentication.Privilege;
 import com.mikelcuenca.app.persistence.application.usuario.PermissionRepository;
@@ -37,7 +37,7 @@ public class IdentityService implements UserDetailsService {
 		try {
 			usuario = usuarioRepository.getByUsername(username);
 		} catch (Exception e) {
-			throw new UsernameNotFoundException("authentication.error.usernamenotfound", e);
+			throw new GenericException("authentication.error.usernamenotfound", e);
 		}
 		Identity user = this.buildAnonymousIdentity();
 		
