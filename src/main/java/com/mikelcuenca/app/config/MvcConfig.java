@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -12,6 +14,7 @@ import org.springframework.core.Ordered;
 import org.springframework.http.MediaType;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -24,6 +27,7 @@ import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+import com.mikelcuenca.app._model.infrastructure.ErrorInfo;
 import com.mikelcuenca.app.service.infrastructure.CustomMappingExceptionResolver;
 import com.mikelcuenca.app.service.infrastructure.JsonViewResolver;
 
@@ -31,6 +35,10 @@ import com.mikelcuenca.app.service.infrastructure.JsonViewResolver;
 @Configuration
 public class MvcConfig implements WebMvcConfigurer{
 
+	
+	//TODO Cors Mappings
+	
+	
 	//ReloadableResourceBundleMessageSource no está limitado, como ResourceBundleMessageSource a archivos
 	//.properties en el classpath, por lo que hay que indicar explícitamente la ruta.
 	@Bean
@@ -46,6 +54,11 @@ public class MvcConfig implements WebMvcConfigurer{
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
     }
+	
+	@Bean
+	ErrorInfo errorInfo() {
+		return new ErrorInfo();
+	}
 	
 	/*
     * Configure ContentNegotiationManager
@@ -66,8 +79,12 @@ public class MvcConfig implements WebMvcConfigurer{
 		List<ViewResolver> resolvers = new ArrayList<ViewResolver>();
 		resolvers.add(jsonViewResolver());
 		resolvers.add(jspViewResolver());
- 
+ 		
 		resolver.setViewResolvers(resolvers);
+
+ 		List<View> defaultViews = new ArrayList<View>();
+ 		defaultViews.add(defaultView());
+ 		resolver.setDefaultViews(defaultViews);
 		return resolver;
 	}
    
@@ -95,6 +112,11 @@ public class MvcConfig implements WebMvcConfigurer{
 	}
    
 	@Bean
+	public View defaultView() {
+		return new JstlView("default", messageSource());
+	}
+	
+	@Bean
 	public CustomMappingExceptionResolver customMappingExceptionResolver() {
 	    CustomMappingExceptionResolver r = new CustomMappingExceptionResolver();
 
@@ -103,7 +125,8 @@ public class MvcConfig implements WebMvcConfigurer{
 	    
 	    r.setExceptionMappings(mappings);
 	    r.setDefaultErrorView("error");
-	    r.setExceptionAttribute("e");
+	    r.setDefaultStatusCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//	    r.setExceptionAttribute(null); Descomentar al pasar a producción para que no le llegue la excepción al cliente.
 	    return r;
 	}
 	

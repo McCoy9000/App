@@ -17,7 +17,7 @@ public class ErrorInfo {
 	private String error;
 	private String nameClass;
 	private String uri;
-	private String stacktrace;
+	private String stackTrace;
 
 	public ErrorInfo() {
 		super();
@@ -29,7 +29,7 @@ public class ErrorInfo {
 		this.error=error;
 		this.nameClass = nameClass;
 		this.uri = uri;
-		this.stacktrace = stacktrace;
+		this.stackTrace = stacktrace;
 	}
 
 	public ErrorInfo(GenericException ex, String uri) {
@@ -37,7 +37,7 @@ public class ErrorInfo {
 		this.messageForUser = ex.getMessageForUser();
 		this.error=ex.getError();
 		this.nameClass=ex.getExceptionClassName();
-		this.stacktrace=ex.getStacktrace();
+		this.stackTrace=ex.getStacktrace();
 		this.uri = uri;
 	}
 	
@@ -46,7 +46,7 @@ public class ErrorInfo {
 		this.messageForUser = ex.getMessageForUser();
 		this.error=ex.getError();
 		this.nameClass=ex.getExceptionClassName();
-		this.stacktrace=ex.getStacktrace();
+		this.stackTrace=ex.getStacktrace();
 		this.uri = uri;
 	}
 
@@ -82,12 +82,12 @@ public class ErrorInfo {
 		this.uri = uri;
 	}
 
-	public String getStacktrace() {
-		return stacktrace;
+	public String getStackTrace() {
+		return stackTrace;
 	}
 
-	public void setStacktrace(String stacktrace) {
-		this.stacktrace = stacktrace;
+	public void setStackTrace(String stackTrace) {
+		this.stackTrace = stackTrace;
 	}
 	
 }

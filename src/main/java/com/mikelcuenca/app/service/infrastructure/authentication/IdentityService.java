@@ -32,15 +32,16 @@ public class IdentityService implements UserDetailsService {
 	PermissionRepository privilegeRepository;
 	
 	@Override
-	public User loadUserByUsername(String username) throws UsernameNotFoundException {
+	public User loadUserByUsername(String username) {
 
 		Usuario usuario = new Usuario();
 		try {
 			usuario = usuarioRepository.getByUsername(username);
 		} catch (Exception e) {
-			throw new UsernameNotFoundException("Error de repositorio al recuperar por username");
+			throw new UsernameNotFoundException("authentication.error.usernamenotfound", e);
 		}
 		User user = this.buildAnonymousIdentity();
+		
 		if(usuario.getUsername() != null || usuario.getUsername() != "" 
 				|| usuario.getRoles() != null || usuario.getRoles().size() > 0) {
 			user = this.mapUsuarioToUser(usuario);
@@ -54,6 +55,10 @@ public class IdentityService implements UserDetailsService {
 	}
 	
 	private User mapUsuarioToUser (Usuario usuario) {
+		if(usuario == null) {
+			return this.buildAnonymousIdentity();
+		}
+		
 		String username = usuario.getUsername();
 		String password = usuario.getPassword();
 		Set<Role> roles = usuario.getRoles();
@@ -69,6 +74,7 @@ public class IdentityService implements UserDetailsService {
 				authorities.add(priv);
 			}
 		}
+		
 		User user = new User(username, password, authorities);
 		return user;
 	}

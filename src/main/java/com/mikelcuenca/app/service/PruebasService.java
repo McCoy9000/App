@@ -1,11 +1,12 @@
 package com.mikelcuenca.app.service;
 
+import java.io.FileNotFoundException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.mikelcuenca.app._model.infrastructure._exceptions.GenericException;
 import com.mikelcuenca.app.persistence.application.usuario.UsuarioRepository;
 
 
@@ -22,7 +23,7 @@ public class PruebasService {
 		
 		int first = usuarioRepository.findFirst();
 		logger.info(String.valueOf(first));
-		throw new GenericException();
+		throw new FileNotFoundException();
 		
 	}
 

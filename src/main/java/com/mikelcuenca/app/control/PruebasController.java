@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.mikelcuenca.app._model.infrastructure._exceptions.GenericException;
 import com.mikelcuenca.app.service.PruebasService;
 
 @Controller
@@ -14,13 +13,13 @@ public class PruebasController {
 	@Autowired
 	PruebasService pruebasService;
 	
-	@RequestMapping(value = "/pruebasService", method=RequestMethod.GET)
-	public void correrPruebas() {
+	@RequestMapping(value = "/pruebas", method=RequestMethod.GET)
+	public void correrPruebas() throws Exception {
 		try {
 			pruebasService.hacerPruebas();
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new GenericException("Error en las pruebasService", e);
+			throw new Exception("Error en las pruebasService", e);
 		}
 	}
 }

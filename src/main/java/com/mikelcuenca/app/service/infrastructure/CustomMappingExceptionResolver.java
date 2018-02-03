@@ -3,14 +3,25 @@ package com.mikelcuenca.app.service.infrastructure;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
+import com.mikelcuenca.app._model.infrastructure.ErrorInfo;
+import com.mikelcuenca.app.utilidades.StackTraceManager;
+
 public class CustomMappingExceptionResolver extends SimpleMappingExceptionResolver {
 
+	@SuppressWarnings("unused")
+	private static final Logger log = LoggerFactory.getLogger(CustomMappingExceptionResolver.class);
+
+	@Autowired
+	ErrorInfo errorInfo;
+	
 	public CustomMappingExceptionResolver() {
-		// Enable logging by providing the name of the logger to use
-	    setWarnLogCategory(CustomMappingExceptionResolver.class.getName());
+			    
 	}
 	
 	@Override
@@ -21,12 +32,18 @@ public class CustomMappingExceptionResolver extends SimpleMappingExceptionResolv
 	@Override
 	protected ModelAndView doResolveException(HttpServletRequest request,
 	    HttpServletResponse response, Object handler, Exception e) {
-	    // Call super method to get the ModelAndView
-	    ModelAndView mav = super.doResolveException(request, response, handler, e);
-	        
-	    // Make the full URL available to the view - note ModelAndView uses
-	    // addObject() but Model uses addAttribute(). They work the same. 
-	    mav.addObject("url", request.getRequestURL());
+
+		ModelAndView mav = super.doResolveException(request, response, handler, e);
+		
+		errorInfo.setError("Error desconocido");
+		errorInfo.setMessageForUser(e.getMessage());
+		errorInfo.setNameClass(e.getClass().toString());
+		errorInfo.setStackTrace(StackTraceManager.getStackTrace(e));
+		errorInfo.setUri(request.getRequestURI());
+	      
+	    mav.addObject("errorInfo", errorInfo);
+		mav.addObject("url", request.getRequestURL());
+	    
 	    return mav;
 	}
 }

@@ -19,7 +19,6 @@ import com.mikelcuenca.app._model.infrastructure._exceptions.GenericJsonExceptio
 /**
  * @author BICUGUAL
  */
-@EnableWebMvc
 @ControllerAdvice
 public class GlobalExceptionController {
 
