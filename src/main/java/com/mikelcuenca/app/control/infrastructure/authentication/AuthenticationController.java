@@ -13,20 +13,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.mikelcuenca.app.utilidades.Messages;
 
 @Controller
-@RequestMapping("/login")
-public class LoginController {
+public class AuthenticationController {
 
 	@Autowired
 	Messages messages;
 
 	@SuppressWarnings("unused")
-	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+	private static final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
-	@RequestMapping(method=RequestMethod.GET)
-	public void login(Principal principal, Model model) {
-		logger.info(principal.getName() + messages.get("login.log.login"));
+	private final String LOGIN_VIEW = "login";
+	
+	@RequestMapping(value= {"/","/login"}, method=RequestMethod.GET)
+	public String authenticate(Principal principal, Model model) {
+		logger.info(messages.get("login.log.login"));
 		
-		
+		return LOGIN_VIEW;
+
 	}
 	
 }

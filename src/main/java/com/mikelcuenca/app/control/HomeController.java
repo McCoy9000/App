@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.mikelcuenca.app.service.infrastructure.authentication.AuthenticationHolder;
 
 @Controller
-@RequestMapping(value = "/")
+@RequestMapping(value = "/home")
 public class HomeController {
 	
 	@Autowired

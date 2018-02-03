@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -32,7 +31,7 @@ public class IdentityService implements UserDetailsService {
 	PermissionRepository privilegeRepository;
 	
 	@Override
-	public User loadUserByUsername(String username) {
+	public Identity loadUserByUsername(String username) {
 
 		Usuario usuario = new Usuario();
 		try {
@@ -40,21 +39,21 @@ public class IdentityService implements UserDetailsService {
 		} catch (Exception e) {
 			throw new UsernameNotFoundException("authentication.error.usernamenotfound", e);
 		}
-		User user = this.buildAnonymousIdentity();
+		Identity user = this.buildAnonymousIdentity();
 		
 		if(usuario.getUsername() != null || usuario.getUsername() != "" 
 				|| usuario.getRoles() != null || usuario.getRoles().size() > 0) {
-			user = this.mapUsuarioToUser(usuario);
+			user = this.mapUsuarioToIdentity(usuario);
 		}
 		return user;
 	}
 	
-	public User buildAnonymousIdentity() {
-		User user = new Identity();
+	public Identity buildAnonymousIdentity() {
+		Identity user = new Identity();
 		return user;
 	}
 	
-	private User mapUsuarioToUser (Usuario usuario) {
+	private Identity mapUsuarioToIdentity (Usuario usuario) {
 		if(usuario == null) {
 			return this.buildAnonymousIdentity();
 		}
@@ -75,7 +74,7 @@ public class IdentityService implements UserDetailsService {
 			}
 		}
 		
-		User user = new User(username, password, authorities);
+		Identity user = new Identity(username, password, authorities);
 		return user;
 	}
 }
