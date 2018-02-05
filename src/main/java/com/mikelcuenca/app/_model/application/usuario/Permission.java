@@ -9,23 +9,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
 
-/**
- * Clase de modelo para los permisos
- * @author BICUGUAL
- */
 @Entity
 public class Permission implements Serializable {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 987915197363889984L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idPermission;
-	
+	@NotNull
 	@Column(nullable=false, unique=true)
 	private String permissionname;
 	@Column
@@ -33,6 +27,10 @@ public class Permission implements Serializable {
 
 	@ManyToMany(mappedBy="permissions")
 	Set<Role> roles;
+	
+	public Permission() {
+		
+	}
 	
 	@Override
 	public String toString() {

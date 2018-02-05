@@ -1,17 +1,14 @@
 package com.mikelcuenca.app._model.infrastructure.authentication;
 
+import java.io.Serializable;
+
 import org.springframework.security.core.GrantedAuthority;
 
-/**
- * Clase de modelo que representa las authoritys del usuario
- * @author BICUGUAL
- */
-public class Privilege implements GrantedAuthority {
+public class Privilege implements GrantedAuthority, Serializable {
 	
 	private static final long serialVersionUID = -6511833692857696569L;
 
 	private Long privilegeId;
-
 	private String name;
 
 	public Privilege() {

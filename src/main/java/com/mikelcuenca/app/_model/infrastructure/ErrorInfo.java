@@ -1,16 +1,8 @@
-/**
- * 
- */
 package com.mikelcuenca.app._model.infrastructure;
 
 import com.mikelcuenca.app._model.infrastructure._exceptions.GenericException;
 import com.mikelcuenca.app._model.infrastructure._exceptions.GenericJsonException;
 
-/**
- * Model de clase para mostrar datos de los errores
- * @author BICUGUAL
- *
- */
 public class ErrorInfo {
 
 	private String messageForUser;
@@ -48,6 +40,12 @@ public class ErrorInfo {
 		this.nameClass=ex.getExceptionClassName();
 		this.stackTrace=ex.getStacktrace();
 		this.uri = uri;
+	}
+
+	@Override
+	public String toString() {
+		return "ErrorInfo [messageForUser=" + messageForUser + ", error=" + error + ", nameClass=" + nameClass
+				+ ", uri=" + uri + ", stackTrace=" + stackTrace + "]";
 	}
 
 	public String getMessageForUser() {

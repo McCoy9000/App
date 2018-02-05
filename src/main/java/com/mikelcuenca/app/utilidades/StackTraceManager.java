@@ -4,6 +4,8 @@ package com.mikelcuenca.app.utilidades;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
+import org.springframework.stereotype.Component;
 /**
  * Clase de utilidad para obtener la traza de un error en formato string. Ej de uso:
  * 
@@ -17,6 +19,7 @@ import java.io.StringWriter;
  * 
  * @author BICUGUAL
  */
+@Component
 public class StackTraceManager {
 
 	private StackTraceManager(){

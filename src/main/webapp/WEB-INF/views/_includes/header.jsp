@@ -8,3 +8,4 @@
 <title><spring:message code="app.title" /></title>
 </head>
 <body>
+<%@ include file="../navigation.jsp" %>

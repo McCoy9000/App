@@ -15,10 +15,12 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.mikelcuenca.app._model.infrastructure.authentication.Identity;
 
+@Service
 public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());

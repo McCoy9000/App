@@ -1,14 +1,7 @@
-/**
- * 
- */
 package com.mikelcuenca.app._model.infrastructure._exceptions;
 
 import com.mikelcuenca.app.utilidades.StackTraceManager;
 
-/**
- * Clase general de Excepciones para handlers que devuelven vistas.
- * @author BICUGUAL
- */
 @SuppressWarnings("serial")
 public class GenericException extends RuntimeException {
 

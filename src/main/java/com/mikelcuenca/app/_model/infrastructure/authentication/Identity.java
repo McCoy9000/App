@@ -1,5 +1,5 @@
 package com.mikelcuenca.app._model.infrastructure.authentication;
-
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,7 +8,7 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class Identity implements UserDetails {
+public class Identity implements UserDetails, Serializable {
 
 	private static final long serialVersionUID = -6739588973135518523L;
 
@@ -28,12 +28,6 @@ public class Identity implements UserDetails {
     
 	public Identity() {
 		this.username = "Anonymous";
-		this.password = "AnonymousPassword";
-		
-		Privilege anonymousPrivilege = new Privilege("ANONYMOUS_PRIVILEGE");
-		List<Privilege> anonymousAuthorities = new ArrayList<Privilege>();
-		anonymousAuthorities.add(anonymousPrivilege);
-		this.authorities = anonymousAuthorities;
 	}
 	
 	public Identity(String username, List<Privilege> authorities) {
@@ -47,6 +41,14 @@ public class Identity implements UserDetails {
 		this.password = password;
 		this.username = username;
 		this.authorities = authorities;
+	}
+
+	@Override
+	public String toString() {
+		return "Identity [password=" + password + ", username=" + username + ", ip=" + ip + ", logintime=" + logintime
+				+ ", logouttime=" + logouttime + ", authorities=" + authorities + ", accountNonExpired="
+				+ accountNonExpired + ", accountNonLocked=" + accountNonLocked + ", credentialsNonExpired="
+				+ credentialsNonExpired + ", enabled=" + enabled + "]";
 	}
 
 	@Override

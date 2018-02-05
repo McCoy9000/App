@@ -1,12 +1,5 @@
-/**
- * 
- */
 package com.mikelcuenca.app._model.infrastructure._exceptions;
 
-/**
- * Clase general de Excepciones para handlers que devuelven json.
- * @author BICUGUAL
- */
 @SuppressWarnings("serial")
 public class GenericJsonException extends GenericException{
 

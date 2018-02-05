@@ -6,12 +6,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import com.mikelcuenca.app._model.infrastructure.ErrorInfo;
+import com.mikelcuenca.app.utilidades.Messages;
 import com.mikelcuenca.app.utilidades.StackTraceManager;
 
+@Service
 public class CustomMappingExceptionResolver extends SimpleMappingExceptionResolver {
 
 	@SuppressWarnings("unused")
@@ -19,13 +22,16 @@ public class CustomMappingExceptionResolver extends SimpleMappingExceptionResolv
 
 	@Autowired
 	ErrorInfo errorInfo;
+
+	@Autowired
+	Messages messages;
 	
 	public CustomMappingExceptionResolver() {
 			    
 	}
 	
 	@Override
-	public String buildLogMessage(Exception e, HttpServletRequest req) {
+	public String buildLogMessage(Exception e, HttpServletRequest request) {
 		return "MVC exception: " + e.getLocalizedMessage();
 	}
 	
@@ -35,7 +41,7 @@ public class CustomMappingExceptionResolver extends SimpleMappingExceptionResolv
 
 		ModelAndView mav = super.doResolveException(request, response, handler, e);
 		
-		errorInfo.setError("Error inesperado");
+		errorInfo.setError(messages.get("exception.resolve.unexpected"));
 		errorInfo.setMessageForUser(e.getMessage());
 		errorInfo.setNameClass(e.getClass().toString());
 		errorInfo.setStackTrace(StackTraceManager.getStackTrace(e));
@@ -44,6 +50,10 @@ public class CustomMappingExceptionResolver extends SimpleMappingExceptionResolv
 	    mav.addObject("errorInfo", errorInfo);
 		mav.addObject("url", request.getRequestURL());
 	    
-	    return mav;
+		logger.info(messages.get("exception.resolve.unexpected"));
+		logger.info(buildLogMessage(e, request));
+		logger.info(StackTraceManager.getStackTrace(e));
+	    
+		return mav;
 	}
 }

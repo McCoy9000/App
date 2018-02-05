@@ -50,7 +50,15 @@ public class IdentityService implements UserDetailsService {
 	
 	public Identity buildAnonymousIdentity() {
 		Identity user = new Identity();
+		user.setPassword("AnonymousPassword");
+		
+		Privilege anonymousPrivilege = new Privilege("ANONYMOUS_PRIVILEGE");
+		List<Privilege> anonymousAuthorities = new ArrayList<Privilege>();
+		anonymousAuthorities.add(anonymousPrivilege);
+		user.setAuthorities(anonymousAuthorities);
+		
 		return user;
+		
 	}
 	
 	private Identity mapUsuarioToIdentity (Usuario usuario) {

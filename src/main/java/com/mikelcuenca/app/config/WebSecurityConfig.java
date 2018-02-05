@@ -16,6 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -23,6 +25,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import com.mikelcuenca.app.service.infrastructure.authentication.CustomAccessDeniedHandler;
 import com.mikelcuenca.app.service.infrastructure.authentication.CustomAuthenticationFailureHandler;
 import com.mikelcuenca.app.service.infrastructure.authentication.CustomAuthenticationSuccessHandler;
+import com.mikelcuenca.app.service.infrastructure.authentication.CustomLogoutHandler;
+import com.mikelcuenca.app.service.infrastructure.authentication.CustomLogoutSuccessHandler;
+import com.mikelcuenca.app.utilidades.Messages;
 
 @Configuration
 @EnableWebSecurity
@@ -30,6 +35,30 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private UserDetailsService userDetailsService;
+	
+	@Autowired
+	private AuthenticationSuccessHandler authenticationSuccessHandler;
+	
+	@Autowired
+	private AuthenticationFailureHandler authenticationFailureHandler;
+	
+	@Autowired
+	private LogoutHandler logoutHandler;
+	
+	@Autowired
+	private LogoutSuccessHandler logoutSuccessHandler;
+	
+	@Autowired
+	private AccessDeniedHandler accessDeniedHandler;
+	
+	@Autowired
+	private PasswordEncoder encoder;
+	
+	@Autowired
+	private CorsConfigurationSource configurationSource;
+	
+	@Autowired
+	Messages messages;
 	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -42,27 +71,39 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	http
 		.authorizeRequests()
 			.anyRequest().authenticated()
-			.antMatchers("/**")
-			.hasRole("USER")
-			.antMatchers("/admin/**")
-			.hasAnyRole("ADMIN", "ROOT")
+			.antMatchers("/recursoProhibido").denyAll()  
+			.antMatchers("/resources/**", "/signup", "/about, /accessDenied").permitAll()  
+			.antMatchers("/**").hasAnyRole("USER", "ADMIN", "ROOT")
+			.antMatchers("/admin/**").hasAnyRole("ADMIN", "ROOT")
 			.and()
 		.formLogin()
 			.loginPage("/login")
 			.permitAll()
-			.successHandler(authenticationSuccessHandler())
-			.failureHandler(authenticationFailureHandler())
+			.loginProcessingUrl("/login")
+			.successHandler(authenticationSuccessHandler)
+			.defaultSuccessUrl("/home")
+			.failureHandler(authenticationFailureHandler)
+			.failureUrl("/login?error")
+			.and()
+		.logout()
+			.logoutUrl("/logout")
+			.permitAll()
+			.addLogoutHandler(logoutHandler)
+			.logoutSuccessHandler(logoutSuccessHandler)
+			.logoutSuccessUrl("/login?logout")
 			.and()
 		.cors()
+			.configurationSource(configurationSource)
 			.and()
 		.exceptionHandling()
-			.accessDeniedHandler(accessDeniedHandler());
-}
+			.accessDeniedHandler(accessDeniedHandler);
+	}
+	
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 		authProvider.setUserDetailsService(userDetailsService);;
-		authProvider.setPasswordEncoder(encoder());
+		authProvider.setPasswordEncoder(encoder);
 		return authProvider;
 	}
 	
@@ -80,14 +121,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Bean
 	public AuthenticationFailureHandler authenticationFailureHandler() {
-		return new CustomAuthenticationFailureHandler();
+		//TODO Darle  funcionalidad
+		CustomAuthenticationFailureHandler handler =  new CustomAuthenticationFailureHandler();
+		handler.setDefaultFailureUrl("/login?error");
+		return handler;
+	}
+	
+	@Bean
+	public LogoutHandler logoutHandler() {
+		//TODO Darle  funcionalidad
+		return new CustomLogoutHandler();
+	}
+	
+	@Bean
+	public LogoutSuccessHandler logoutSuccessHandler() {
+		//TODO Darle  funcionalidad
+		CustomLogoutSuccessHandler handler = new CustomLogoutSuccessHandler();
+		handler.setDefaultTargetUrl("/login?logout");
+		return handler;
 	}
 	
 	@Bean
 	public AccessDeniedHandler accessDeniedHandler() {
-		CustomAccessDeniedHandler handler = new CustomAccessDeniedHandler();
-		handler.setErrorPage("error");
-		return handler;
+		return new CustomAccessDeniedHandler();
 	}
 	
 	@Bean

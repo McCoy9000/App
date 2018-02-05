@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import com.mikelcuenca.app._model.application.usuario.Permission;
 import com.mikelcuenca.app._model.application.usuario.Role;
@@ -15,7 +16,7 @@ import com.mikelcuenca.app.persistence.application.usuario.PermissionRepository;
 import com.mikelcuenca.app.persistence.application.usuario.RoleRepository;
 import com.mikelcuenca.app.persistence.application.usuario.UsuarioRepository;
 
-//@Component
+@Component
 public class DataLoader implements ApplicationRunner {
 
 	@Autowired
@@ -61,5 +62,4 @@ public class DataLoader implements ApplicationRunner {
 			usuarioRepository.save(usuario);
 		}
 	}
-
 }

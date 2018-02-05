@@ -11,32 +11,33 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
 
-/**
- * Clase de modelo para los roles del usuario
- * @author BICUGUAL
- */
+
 @Entity
 public class Role implements Serializable {
  
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8369703745305710922L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
     private Long roleId;
+	@NotNull
 	@Column(nullable=false, unique=true)
 	private String rolename;
 	@Column
     private String description;
  	@ManyToMany(mappedBy="roles")
 	private Set<Usuario> usuarios;
+ 	//TODO ajustar políticas de carga
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="ROLES_PERMISSIONS")
     private Set<Permission> permissions;
  
+	public Role() {
+		
+	}
+	
 	@Override
 	public String toString() {
 		return "Role [roleId=" + roleId + ", rolename=" + rolename + ", description=" + description + ", permissions="

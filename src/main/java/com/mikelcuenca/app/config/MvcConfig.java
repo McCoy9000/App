@@ -7,17 +7,21 @@ import java.util.Properties;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.Ordered;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -30,6 +34,7 @@ import org.springframework.web.servlet.view.JstlView;
 import com.mikelcuenca.app._model.infrastructure.ErrorInfo;
 import com.mikelcuenca.app.service.infrastructure.CustomMappingExceptionResolver;
 import com.mikelcuenca.app.service.infrastructure.JsonViewResolver;
+import com.mikelcuenca.app.utilidades.Messages;
 
 @EnableWebMvc
 @Configuration
@@ -38,35 +43,46 @@ public class MvcConfig implements WebMvcConfigurer{
 	
 	//TODO Cors Mappings
 	
+	@Autowired
+	MessageSource messageSource;
+	
+	@Autowired
+	Messages messages;
 	
 	//ReloadableResourceBundleMessageSource no está limitado, como ResourceBundleMessageSource a archivos
 	//.properties en el classpath, por lo que hay que indicar explícitamente la ruta.
 	@Bean
 	public ReloadableResourceBundleMessageSource messageSource() {
         ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
-        source.setBasename("/WEB-INF/i18n/messages");
+        source.setBasename("${messages.source.basename}");
         source.setUseCodeAsDefaultMessage(true);
         source.setDefaultEncoding("UTF-8");
         return source;
     }
 	
-	@Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
-    }
+	@Bean
+	public static PropertySourcesPlaceholderConfigurer properties(){
+	  PropertySourcesPlaceholderConfigurer pspc
+	    = new PropertySourcesPlaceholderConfigurer();
+	  Resource[] resources = new ClassPathResource[ ]
+	    { new ClassPathResource("infrastructure.properties"), 
+	    		new ClassPathResource("application.properties") };
+	  pspc.setLocations(resources);
+	  pspc.setIgnoreUnresolvablePlaceholders(true);
+	  return pspc;
+	}
 	
+	//TODO Decidir si invocarlo como bean y si singleton o prototype
 	@Bean
 	ErrorInfo errorInfo() {
 		return new ErrorInfo();
 	}
 	
-	/*
-    * Configure ContentNegotiationManager
-    */
 	@Override
 	public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-		configurer.ignoreAcceptHeader(false).defaultContentType(
-		MediaType.TEXT_HTML);
+		configurer
+			.ignoreAcceptHeader(false)
+			.defaultContentType(MediaType.TEXT_HTML);
 	}
    
 	@Bean
@@ -74,9 +90,9 @@ public class MvcConfig implements WebMvcConfigurer{
 		ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
 		resolver.setContentNegotiationManager(manager);
 		resolver.setOrder(Ordered.HIGHEST_PRECEDENCE);
+		
 		// Define all possible view resolvers
-       
-		List<ViewResolver> resolvers = new ArrayList<ViewResolver>();
+       	List<ViewResolver> resolvers = new ArrayList<ViewResolver>();
 		resolvers.add(jsonViewResolver());
 		resolvers.add(jspViewResolver());
  		
@@ -87,7 +103,8 @@ public class MvcConfig implements WebMvcConfigurer{
  		resolver.setDefaultViews(defaultViews);
 		return resolver;
 	}
-   
+	
+	//TODO decidir si se va a utilizar
 //   @Bean
 //   ResourceBundleViewResolver resourceBundleResolver() {
 //	   ResourceBundleViewResolver bundleResolver = new ResourceBundleViewResolver();
@@ -95,7 +112,6 @@ public class MvcConfig implements WebMvcConfigurer{
 //	   bundleResolver.setOrder(2);
 //	   return bundleResolver;
 //   }
-
 
    	@Bean
 	public ViewResolver jsonViewResolver() {
@@ -106,14 +122,14 @@ public class MvcConfig implements WebMvcConfigurer{
 	public ViewResolver jspViewResolver() {
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
 		viewResolver.setViewClass(JstlView.class);
-		viewResolver.setPrefix("/WEB-INF/views/");
+		viewResolver.setPrefix("${views.jsp.locationPrefix}");
 		viewResolver.setSuffix(".jsp");
 		return viewResolver;
 	}
    
 	@Bean
 	public View defaultView() {
-		return new JstlView("default", messageSource());
+		return new JstlView("${views.default}", messageSource);
 	}
 	
 	@Bean
@@ -124,9 +140,10 @@ public class MvcConfig implements WebMvcConfigurer{
 	    mappings.setProperty("Exception", "unhandledError");
 	    
 	    r.setExceptionMappings(mappings);
-	    r.setDefaultErrorView("error");
+	    r.setDefaultErrorView("${views.default.error}");
 	    r.setDefaultStatusCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-//	    r.setExceptionAttribute(null); Descomentar al pasar a producción para que no le llegue la excepción al cliente.
+//	    Descomentar al pasar a producción para que no le llegue la excepción al cliente.
+//	    r.setExceptionAttribute(null); 
 	    return r;
 	}
 	
@@ -139,7 +156,7 @@ public class MvcConfig implements WebMvcConfigurer{
 	@Bean
 	public LocaleResolver localeResolver () {
 		CookieLocaleResolver resolver = new CookieLocaleResolver();
-		Locale defaultLocale = new Locale("es");
+		Locale defaultLocale = new Locale("${locale.default}");
 		resolver.setDefaultLocale(defaultLocale);
 		resolver.setCookieName("language");
 		return resolver;
