@@ -7,8 +7,6 @@ import java.util.Properties;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
@@ -34,7 +32,6 @@ import org.springframework.web.servlet.view.JstlView;
 import com.mikelcuenca.app._model.infrastructure.ErrorInfo;
 import com.mikelcuenca.app.service.infrastructure.CustomMappingExceptionResolver;
 import com.mikelcuenca.app.service.infrastructure.JsonViewResolver;
-import com.mikelcuenca.app.utilidades.Messages;
 
 @EnableWebMvc
 @Configuration
@@ -43,18 +40,12 @@ public class MvcConfig implements WebMvcConfigurer{
 	
 	//TODO Cors Mappings
 	
-	@Autowired
-	MessageSource messageSource;
-	
-	@Autowired
-	Messages messages;
-	
 	//ReloadableResourceBundleMessageSource no está limitado, como ResourceBundleMessageSource a archivos
 	//.properties en el classpath, por lo que hay que indicar explícitamente la ruta.
 	@Bean
 	public ReloadableResourceBundleMessageSource messageSource() {
         ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
-        source.setBasename("${messages.source.basename}");
+        source.setBasename("/WEB-INF/i18n/messages");
         source.setUseCodeAsDefaultMessage(true);
         source.setDefaultEncoding("UTF-8");
         return source;
@@ -122,14 +113,14 @@ public class MvcConfig implements WebMvcConfigurer{
 	public ViewResolver jspViewResolver() {
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
 		viewResolver.setViewClass(JstlView.class);
-		viewResolver.setPrefix("${views.jsp.locationPrefix}");
+		viewResolver.setPrefix("/WEB-INF/views/");
 		viewResolver.setSuffix(".jsp");
 		return viewResolver;
 	}
-   
+    
 	@Bean
 	public View defaultView() {
-		return new JstlView("${views.default}", messageSource);
+		return new JstlView("default", messageSource());
 	}
 	
 	@Bean
@@ -140,7 +131,7 @@ public class MvcConfig implements WebMvcConfigurer{
 	    mappings.setProperty("Exception", "unhandledError");
 	    
 	    r.setExceptionMappings(mappings);
-	    r.setDefaultErrorView("${views.default.error}");
+	    r.setDefaultErrorView("error");
 	    r.setDefaultStatusCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 //	    Descomentar al pasar a producción para que no le llegue la excepción al cliente.
 //	    r.setExceptionAttribute(null); 
@@ -156,7 +147,7 @@ public class MvcConfig implements WebMvcConfigurer{
 	@Bean
 	public LocaleResolver localeResolver () {
 		CookieLocaleResolver resolver = new CookieLocaleResolver();
-		Locale defaultLocale = new Locale("${locale.default}");
+		Locale defaultLocale = new Locale("es");
 		resolver.setDefaultLocale(defaultLocale);
 		resolver.setCookieName("language");
 		return resolver;

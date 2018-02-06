@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
@@ -14,11 +13,9 @@ import com.mikelcuenca.app._model.infrastructure.ErrorInfo;
 import com.mikelcuenca.app.utilidades.Messages;
 import com.mikelcuenca.app.utilidades.StackTraceManager;
 
-@Service
 public class CustomMappingExceptionResolver extends SimpleMappingExceptionResolver {
 
-	@SuppressWarnings("unused")
-	private static final Logger log = LoggerFactory.getLogger(CustomMappingExceptionResolver.class);
+	private static final Logger logger = LoggerFactory.getLogger(CustomMappingExceptionResolver.class);
 
 	@Autowired
 	ErrorInfo errorInfo;

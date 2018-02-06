@@ -52,9 +52,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private AccessDeniedHandler accessDeniedHandler;
 	
 	@Autowired
-	private PasswordEncoder encoder;
-	
-	@Autowired
 	private CorsConfigurationSource configurationSource;
 	
 	@Autowired
@@ -70,11 +67,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 	http
 		.authorizeRequests()
-			.anyRequest().authenticated()
 			.antMatchers("/recursoProhibido").denyAll()  
+			.antMatchers("/admin/**").hasAnyRole("ADMIN", "ROOT")
 			.antMatchers("/resources/**", "/signup", "/about, /accessDenied").permitAll()  
 			.antMatchers("/**").hasAnyRole("USER", "ADMIN", "ROOT")
-			.antMatchers("/admin/**").hasAnyRole("ADMIN", "ROOT")
+			.anyRequest().authenticated()
 			.and()
 		.formLogin()
 			.loginPage("/login")
@@ -103,7 +100,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 		authProvider.setUserDetailsService(userDetailsService);;
-		authProvider.setPasswordEncoder(encoder);
+		authProvider.setPasswordEncoder(encoder());
 		return authProvider;
 	}
 	

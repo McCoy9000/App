@@ -11,11 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandlerImpl;
-import org.springframework.stereotype.Service;
 
 import com.mikelcuenca.app.utilidades.Messages;
 
-@Service
 public class CustomAccessDeniedHandler extends AccessDeniedHandlerImpl {
 
 	public static final Logger logger = LoggerFactory.getLogger(CustomAccessDeniedHandler.class);
