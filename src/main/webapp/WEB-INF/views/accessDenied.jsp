@@ -5,4 +5,6 @@
  
 Click <a href="<c:url value="/home" /> ">here</a>
 to go back to the Homepage.
+<%@ include file="_includes/scripts.jsp" %>
+
 <%@ include file="_includes/footer.jsp"%>

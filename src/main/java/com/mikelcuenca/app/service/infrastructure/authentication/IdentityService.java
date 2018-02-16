@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -14,12 +16,16 @@ import com.mikelcuenca.app._model.application.usuario.Usuario;
 import com.mikelcuenca.app._model.infrastructure._exceptions.GenericException;
 import com.mikelcuenca.app._model.infrastructure.authentication.Identity;
 import com.mikelcuenca.app._model.infrastructure.authentication.Privilege;
+import com.mikelcuenca.app.control.PruebasController;
 import com.mikelcuenca.app.persistence.application.usuario.PermissionRepository;
 import com.mikelcuenca.app.persistence.application.usuario.RoleRepository;
 import com.mikelcuenca.app.persistence.application.usuario.UsuarioRepository;
 
 @Service
 public class IdentityService implements UserDetailsService {
+
+	@SuppressWarnings("unused")
+	private static final Logger logger = LoggerFactory.getLogger(PruebasController.class);
 
 	@Autowired
 	UsuarioRepository usuarioRepository;
@@ -33,17 +39,18 @@ public class IdentityService implements UserDetailsService {
 	@Override
 	public Identity loadUserByUsername(String username) {
 
-		Usuario usuario = new Usuario();
+		Usuario usuario = Usuario.of();
 		try {
 			usuario = usuarioRepository.getByUsername(username);
 		} catch (Exception e) {
 			throw new GenericException("authentication.error.usernamenotfound", e);
 		}
 		Identity user = this.buildAnonymousIdentity();
-		
-		if(usuario.getUsername() != null || usuario.getUsername() != "" 
-				|| usuario.getRoles() != null || usuario.getRoles().size() > 0) {
-			user = this.mapUsuarioToIdentity(usuario);
+		if(usuario != null) {
+			if(usuario.getUsername() != null && usuario.getUsername() != "" 
+					&& usuario.getRoles() != null && usuario.getRoles().size() > 0) {
+				user = this.mapUsuarioToIdentity(usuario);
+			}
 		}
 		return user;
 	}
@@ -77,7 +84,7 @@ public class IdentityService implements UserDetailsService {
 			authorities.add(privilege);
 			for(Permission permission : role.getPermissions()) {
 				Privilege priv = new Privilege();
-				priv.setName(permission.getPermissionname());
+				priv.setName(permission.getPermissionName());
 				authorities.add(priv);
 			}
 		}

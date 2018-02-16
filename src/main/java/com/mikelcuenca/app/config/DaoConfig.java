@@ -46,23 +46,24 @@ public class DaoConfig {
 	@Bean
 	@ConfigurationProperties(prefix="hibernate")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-       LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-       em.setDataSource(dataSource);
-       em.setPackagesToScan(new String[] { "com.mikelcuenca.app._model" });
+		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+		em.setDataSource(dataSource);
+		em.setPackagesToScan(new String[] { "com.mikelcuenca.app._model" });
  
-       JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-       em.setJpaVendorAdapter(vendorAdapter);
-       em.setJpaProperties(additionalJpaProperties());
+		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+		em.setJpaVendorAdapter(vendorAdapter);
+		em.setJpaProperties(additionalJpaProperties());
  
-       return em;
+		return em;
     }
 	
 	Properties additionalJpaProperties() {
 		Properties properties = new Properties();
 		properties.setProperty("hibernate.hbm2ddl.auto", "update");
-	    properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-	    properties.setProperty("hibernate.show_sql", "true");
-	    return properties;
+		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+		properties.setProperty("hibernate.show_sql", "true");
+		properties.setProperty("hibernate.jdbc.use_streams_for_binary", "false");
+		return properties;
 	}
 	
 	@Bean

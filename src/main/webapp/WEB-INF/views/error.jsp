@@ -8,4 +8,6 @@
 <h5><c:out value="${errorInfo.uri}" /></h5>
 <h3><c:out value="${url}" /></h3> 
 <h5><c:out value="${errorInfo.stackTrace}" /></h5>
+<%@ include file="_includes/scripts.jsp" %>
+
 <%@ include file="_includes/footer.jsp"%>

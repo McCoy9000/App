@@ -1,7 +1,9 @@
 package com.mikelcuenca.app._model.application.usuario;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,56 +11,64 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.NamedQuery;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.mikelcuenca.app.control.PruebasController;
 
 @Entity
-@Getter @Setter @NoArgsConstructor
-//TODO Trasladar named query al DAO
-@NamedQuery(name = "Usuario.findFirst", query = "SELECT 1 FROM Usuario WHERE rownum = 1")
+@Table(indexes = {@Index(columnList = "codUsuario"), @Index(columnList = "username")})
 public class Usuario implements Serializable{
 
 	private static final long serialVersionUID = 5620593760401949871L;
 	
+	@SuppressWarnings("unused")
+	private static final Logger logger = LoggerFactory.getLogger(PruebasController.class);
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long usuarioId;
+	private BigInteger usuarioId;
+	@NotNull
+	@Column(nullable=false, unique=true)
+	private UUID codUsuario = UUID.randomUUID();
 	@NotNull
 	@Column(nullable=false, unique=true)
 	private String username;
 	@Column
 	private String password;
-	@Column
-	private String email;
-	@Column
-	private String descripcion;
+	@ManyToOne
+	private Identidad identidad;
 	//TODO ajustar politicas de carga
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="USUARIOS_ROLES")
 	private Set<Role> roles;
 	
-	public Usuario() {
-		
+	protected Usuario() {
 	}
-		
+	
+	public static final Usuario of() {
+		return new Usuario();
+	}
+	
+
 	@Override
 	public String toString() {
-		return "Usuario [usuarioId=" + usuarioId + ", username=" + username + ", password=" + password + ", email="
-				+ email + ", descripcion=" + descripcion + ", roles=" + roles + "]";
+		return "Usuario [usuarioId=" + usuarioId + ", username=" + username + ", password=" + password + ", identidad=" + identidad.getDescripcion() + ", roles=" + roles + "]";
 	}
 
 
-	public Long getUsuarioId() {
+	public BigInteger getUsuarioId() {
 		return usuarioId;
 	}
 	
-	public void setUsuarioId(Long usuarioId) {
+	public void setUsuarioId(@NotNull BigInteger usuarioId) {
 		this.usuarioId = usuarioId;
 	}
 	
@@ -78,21 +88,14 @@ public class Usuario implements Serializable{
 		this.password = password;
 	}
 	
-	public String getDescripcion() {
-		return descripcion;
+	public Identidad getIdentidad() {
+		return identidad;
 	}
 	
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
+	public void setIdentidad(Identidad identidad) {
+		this.identidad = identidad;
 	}
 	
-	public String getEmail() {
-		return email;
-	}
-	
-	public void setEmail(String email) {
-		this.email = email;
-	}
 	public Set<Role> getRoles() {
 		return roles;
 	}

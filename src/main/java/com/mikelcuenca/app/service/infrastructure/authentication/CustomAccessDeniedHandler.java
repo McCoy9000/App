@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 
-import com.mikelcuenca.app.utilidades.Messages;
+import com.mikelcuenca.app.utils.Messages;
 
 public class CustomAccessDeniedHandler extends AccessDeniedHandlerImpl {
 

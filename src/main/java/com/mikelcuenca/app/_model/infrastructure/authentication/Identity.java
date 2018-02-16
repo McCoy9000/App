@@ -45,10 +45,8 @@ public class Identity implements UserDetails, Serializable {
 
 	@Override
 	public String toString() {
-		return "Identity [password=" + password + ", username=" + username + ", ip=" + ip + ", logintime=" + logintime
-				+ ", logouttime=" + logouttime + ", authorities=" + authorities + ", accountNonExpired="
-				+ accountNonExpired + ", accountNonLocked=" + accountNonLocked + ", credentialsNonExpired="
-				+ credentialsNonExpired + ", enabled=" + enabled + "]";
+		return "Identity [username=" + username + ", ip=" + ip + ", logintime=" + logintime
+				+ ", logouttime=" + logouttime + ", authorities=" + authorities + "]";
 	}
 
 	@Override
@@ -60,16 +58,16 @@ public class Identity implements UserDetails, Serializable {
 		return grantedAuthorities;			
 	}
 
+	public String getUsername() {
+		return username;
+	}
+	
 	public String getPassword() {
 		return password;
 	}
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getUsername() {
-		return username;
 	}
 
 	public String getIp() {
@@ -114,7 +112,5 @@ public class Identity implements UserDetails, Serializable {
 
 	public boolean isEnabled() {
 		return enabled;
-	}
-
-	
+	}	
 }

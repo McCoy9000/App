@@ -38,4 +38,7 @@
 		value="${_csrf.token}"/>
 	<button type="submit" class="btn">LOG IN</button>
 </form>
+
+<%@ include file="_includes/scripts.jsp" %>
+
 <%@ include file="_includes/footer.jsp"%>

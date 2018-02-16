@@ -21,7 +21,7 @@ public class PruebasService {
 	
 	public void hacerPruebas() throws Exception {
 		
-		int first = usuarioRepository.findFirst();
+		int first = (int)usuarioRepository.findFirst();
 		logger.info(String.valueOf(first));
 		throw new FileNotFoundException();
 		

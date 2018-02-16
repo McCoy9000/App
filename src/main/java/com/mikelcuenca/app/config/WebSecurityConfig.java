@@ -2,6 +2,8 @@ package com.mikelcuenca.app.config;
 
 import java.util.Arrays;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,11 +29,14 @@ import com.mikelcuenca.app.service.infrastructure.authentication.CustomAuthentic
 import com.mikelcuenca.app.service.infrastructure.authentication.CustomAuthenticationSuccessHandler;
 import com.mikelcuenca.app.service.infrastructure.authentication.CustomLogoutHandler;
 import com.mikelcuenca.app.service.infrastructure.authentication.CustomLogoutSuccessHandler;
-import com.mikelcuenca.app.utilidades.Messages;
+import com.mikelcuenca.app.utils.Messages;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+	@SuppressWarnings("unused")
+	private static final Logger logger = LoggerFactory.getLogger(WebSecurityConfig.class);
 
 	@Autowired
 	private UserDetailsService userDetailsService;

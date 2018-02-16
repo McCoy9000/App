@@ -1,15 +1,21 @@
 package com.mikelcuenca.app.control;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.mikelcuenca.app._model.infrastructure._exceptions.GenericException;
+import com.mikelcuenca.app.persistence.application.usuario.PermissionRepository;
 import com.mikelcuenca.app.service.PruebasService;
 
 @Controller
 public class PruebasController {
+
+	@SuppressWarnings("unused")
+	private static final Logger logger = LoggerFactory.getLogger(PruebasController.class);
 
 	@Autowired
 	PruebasService pruebasService;

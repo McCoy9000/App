@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mikelcuenca.app.service.infrastructure.authentication.AuthenticationHolder;
-import com.mikelcuenca.app.utilidades.Messages;
+import com.mikelcuenca.app.utils.Messages;
 
 @Controller
 public class AuthenticationController {

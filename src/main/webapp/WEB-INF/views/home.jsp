@@ -7,4 +7,7 @@
 <form:form action="/logout" method="POST">
     <input type="submit" value="<spring:message code='home.button.logout' />" />
 </form:form>
+
+<%@ include file="_includes/scripts.jsp" %>
+
 <%@ include file="_includes/footer.jsp"%>

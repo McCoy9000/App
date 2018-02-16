@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
-import com.mikelcuenca.app.utilidades.Messages;
+import com.mikelcuenca.app.utils.Messages;
 
 
 public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {

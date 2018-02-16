@@ -10,8 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import com.mikelcuenca.app._model.infrastructure.ErrorInfo;
-import com.mikelcuenca.app.utilidades.Messages;
-import com.mikelcuenca.app.utilidades.StackTraceManager;
+import com.mikelcuenca.app.utils.Messages;
+import com.mikelcuenca.app.utils.StackTraceManager;
 
 public class CustomMappingExceptionResolver extends SimpleMappingExceptionResolver {
 

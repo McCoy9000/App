@@ -4,4 +4,6 @@
 
 <h3>No deberías estar aquí</h3>
 
+<%@ include file="_includes/scripts.jsp" %>
+
 <%@ include file="_includes/footer.jsp"%>

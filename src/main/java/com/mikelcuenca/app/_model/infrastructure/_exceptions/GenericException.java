@@ -1,6 +1,6 @@
 package com.mikelcuenca.app._model.infrastructure._exceptions;
 
-import com.mikelcuenca.app.utilidades.StackTraceManager;
+import com.mikelcuenca.app.utils.StackTraceManager;
 
 @SuppressWarnings("serial")
 public class GenericException extends RuntimeException {

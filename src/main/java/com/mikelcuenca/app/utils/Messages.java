@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mikelcuenca.app.utilidades;
+package com.mikelcuenca.app.utils;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;

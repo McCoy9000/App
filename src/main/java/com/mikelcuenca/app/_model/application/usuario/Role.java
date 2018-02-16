@@ -1,7 +1,9 @@
 package com.mikelcuenca.app._model.application.usuario;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,19 +11,25 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 
 @Entity
+@Table(indexes = {@Index(columnList = "codRole")})
 public class Role implements Serializable {
  
 	private static final long serialVersionUID = 8369703745305710922L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-    private Long roleId;
+    private BigInteger roleId;
+	@NotNull
+	@Column(nullable=false, unique=true)
+	private UUID codRole = UUID.randomUUID();
 	@NotNull
 	@Column(nullable=false, unique=true)
 	private String rolename;
@@ -38,17 +46,21 @@ public class Role implements Serializable {
 		
 	}
 	
+	public static Role of() {
+		return new Role();
+	}
+	
 	@Override
 	public String toString() {
 		return "Role [roleId=" + roleId + ", rolename=" + rolename + ", description=" + description + ", permissions="
 				+ permissions + "]";
 	}
 
-	public Long getRoleId() {
+	public BigInteger getRoleId() {
 		return roleId;
 	}
 
-	public void setRoleId(Long roleId) {
+	public void setRoleId(BigInteger roleId) {
 		this.roleId = roleId;
 	}
 
