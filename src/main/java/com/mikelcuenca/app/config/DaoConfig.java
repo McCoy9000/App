@@ -48,7 +48,7 @@ public class DaoConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 		em.setDataSource(dataSource);
-		em.setPackagesToScan(new String[] { "com.mikelcuenca.app._model" });
+		em.setPackagesToScan(new String[] { "com.mikelcuenca.app.application" });
  
 		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		em.setJpaVendorAdapter(vendorAdapter);

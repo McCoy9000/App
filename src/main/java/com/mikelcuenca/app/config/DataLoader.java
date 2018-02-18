@@ -13,13 +13,13 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.mikelcuenca.app._model.application.usuario.Permission;
-import com.mikelcuenca.app._model.application.usuario.Role;
-import com.mikelcuenca.app._model.application.usuario.Usuario;
-import com.mikelcuenca.app.persistence.application.usuario.PermissionRepository;
-import com.mikelcuenca.app.persistence.application.usuario.RoleRepository;
-import com.mikelcuenca.app.persistence.application.usuario.UsuarioRepository;
-import com.mikelcuenca.app.utils.Messages;
+import com.mikelcuenca.app.application.usuario.Permission;
+import com.mikelcuenca.app.application.usuario.PermissionRepository;
+import com.mikelcuenca.app.application.usuario.Role;
+import com.mikelcuenca.app.application.usuario.RoleRepository;
+import com.mikelcuenca.app.application.usuario.Usuario;
+import com.mikelcuenca.app.application.usuario.UsuarioRepository;
+import com.mikelcuenca.app.infastructure.utils.Messages;
 
 @Component
 public class DataLoader implements ApplicationRunner {
@@ -57,7 +57,7 @@ public class DataLoader implements ApplicationRunner {
 			
 			String[][] permisos = new String[][]{{messages.get("permissions.root"), messages.get("permissions.root.description")}
 												, {messages.get("permissions.admin"), messages.get("permissions.admin.description")}
-												, {messages.get("permissions.acess"), messages.get("permissions.access.description")}
+												, {messages.get("permissions.access"), messages.get("permissions.access.description")}
 												, {messages.get("permissions.search"), messages.get("permissions.search.description")}
 												, {messages.get("permissions.read"), messages.get("permissions.read.description")}
 												, {messages.get("permissions.write"), messages.get("permissions.write.description")}

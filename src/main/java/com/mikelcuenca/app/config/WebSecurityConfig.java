@@ -24,12 +24,12 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.mikelcuenca.app.service.infrastructure.authentication.CustomAccessDeniedHandler;
-import com.mikelcuenca.app.service.infrastructure.authentication.CustomAuthenticationFailureHandler;
-import com.mikelcuenca.app.service.infrastructure.authentication.CustomAuthenticationSuccessHandler;
-import com.mikelcuenca.app.service.infrastructure.authentication.CustomLogoutHandler;
-import com.mikelcuenca.app.service.infrastructure.authentication.CustomLogoutSuccessHandler;
-import com.mikelcuenca.app.utils.Messages;
+import com.mikelcuenca.app.infastructure.authentication.service.CustomAccessDeniedHandler;
+import com.mikelcuenca.app.infastructure.authentication.service.CustomAuthenticationFailureHandler;
+import com.mikelcuenca.app.infastructure.authentication.service.CustomAuthenticationSuccessHandler;
+import com.mikelcuenca.app.infastructure.authentication.service.CustomLogoutHandler;
+import com.mikelcuenca.app.infastructure.authentication.service.CustomLogoutSuccessHandler;
+import com.mikelcuenca.app.infastructure.utils.Messages;
 
 @Configuration
 @EnableWebSecurity

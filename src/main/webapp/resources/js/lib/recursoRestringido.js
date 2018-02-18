@@ -8,8 +8,8 @@ $(function() {
 	$("#method").change(function() {
 		$("#form_usuario").attr("method", $('#method').val());
 	});
-	$("#submit_form_usuario").click(function() {
-		preventDefault();
-		$("#target").load($("#action"));
+	$("#submit_form_usuario").click(function(e) {
+		e.preventDefault();
+		$("#target").load("/admin/usuarios/");
 	})
 });

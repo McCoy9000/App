@@ -30,9 +30,9 @@ import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
-import com.mikelcuenca.app._model.infrastructure.ErrorInfo;
-import com.mikelcuenca.app.service.infrastructure.CustomMappingExceptionResolver;
-import com.mikelcuenca.app.service.infrastructure.JsonViewResolver;
+import com.mikelcuenca.app.infastructure._exception.control.CustomMappingExceptionResolver;
+import com.mikelcuenca.app.infastructure.generic.model.ErrorInfo;
+import com.mikelcuenca.app.infastructure.generic.service.JsonViewResolver;
 
 @EnableWebMvc
 @Configuration
@@ -139,7 +139,7 @@ public class MvcConfig implements WebMvcConfigurer{
 	    r.setExceptionMappings(mappings);
 	    r.setDefaultErrorView("error");
 	    r.setDefaultStatusCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-//	    Descomentar al pasar a producción para que no le llegue la excepción al cliente.
+//	    TODO Descomentar al pasar a producción para que no le llegue la excepción al cliente.
 //	    r.setExceptionAttribute(null); 
 	    return r;
 	}
