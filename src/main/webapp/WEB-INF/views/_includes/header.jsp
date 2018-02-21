@@ -10,4 +10,4 @@ integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6J
 <title><spring:message code="app.title" /></title>
 </head>
 <body>
-<%@ include file="../navigation.jsp" %>
+<%@ include file="navigation.jsp" %>
