@@ -1,9 +1,11 @@
 package com.mikelcuenca.app.application.usuario;
 
+import java.math.BigInteger;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface RoleRepository extends JpaRepository<Role, Long> {
+public interface RoleRepository extends JpaRepository<Role, BigInteger> {
 
 	public Role getByRolename(String rolename);
 	

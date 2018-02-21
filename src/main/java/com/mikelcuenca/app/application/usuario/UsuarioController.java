@@ -28,33 +28,33 @@ public class UsuarioController {
 	public List<Usuario> buscarTodos() {
 		return usuarioService.findAll();
 	}
-//	
-//	@RequestMapping(value="/", method=RequestMethod.POST)
-//	public Usuario insertar(@RequestParam Usuario usuario) {
-//		try {
-//			return usuarioService.add(usuario);
-//		} catch (Exception e) {
-//			throw new GenericException(messages.get("usuario.error.crear"), e);
-//		}
-//	}
-//	
-//	@RequestMapping(value="/", method=RequestMethod.PUT)
-//	public Usuario actualizar(@RequestParam Usuario usuario) {
-//		try {
-//			return usuarioService.update(usuario);
-//		} catch (Exception e) {
-//			throw new GenericException(messages.get("usuario.error.actualizar"), e);
-//		}
-//	}
-//	
-//	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-//	public Usuario borrar(@PathVariable BigInteger id) {
-//		try {
-//			return usuarioService.delete(id);
-//		} catch (Exception e) {
-//			throw new GenericException(messages.get("usuario.error.borrar"), e);
-//		}
-//	}
+	
+	@RequestMapping(value="/", method=RequestMethod.POST)
+	public Usuario insertar(@RequestParam Usuario usuario) {
+		try {
+			return usuarioService.add(usuario);
+		} catch (Exception e) {
+			throw new GenericException(messages.get("usuario.error.crear"), e);
+		}
+	}
+	
+	@RequestMapping(value="/", method=RequestMethod.PUT)
+	public Usuario actualizar(@RequestParam Usuario usuario) {
+		try {
+			return usuarioService.update(usuario);
+		} catch (Exception e) {
+			throw new GenericException(messages.get("usuario.error.actualizar"), e);
+		}
+	}
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	public Usuario borrar(@PathVariable BigInteger id) {
+		try {
+			return usuarioService.delete(id);
+		} catch (Exception e) {
+			throw new GenericException(messages.get("usuario.error.borrar"), e);
+		}
+	}
 			
 	@RequestMapping(value="/filter", method=RequestMethod.POST)
 	public List<Usuario> buscarTodosFiltro(@RequestParam Usuario usuario, 

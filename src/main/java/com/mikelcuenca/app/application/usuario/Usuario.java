@@ -2,6 +2,8 @@ package com.mikelcuenca.app.application.usuario;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -22,7 +24,6 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mikelcuenca.app.application.generic.Opcion;
 import com.mikelcuenca.app.application.profile.Profile;
 
 @Entity
@@ -56,7 +57,7 @@ public class Usuario implements Serializable{
 	private Identidad identidad;
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="USUARIOS_OPCIONES")
-	private Map<Long, Opcion> opciones;
+	private Map<String, Object> opciones;
 	
 	protected Usuario() {
 	}
@@ -98,7 +99,7 @@ public class Usuario implements Serializable{
 	}
 
 	public Set<Role> getRoles() {
-		return roles;
+		return (roles == null) ? new HashSet<Role>() : roles;
 	}
 
 	public void setRoles(Set<Role> roles) {
@@ -106,7 +107,7 @@ public class Usuario implements Serializable{
 	}
 
 	public Map<Long, Profile> getProfiles() {
-		return profiles;
+		return (profiles == null) ? new HashMap<Long, Profile>() : profiles;
 	}
 
 	public void setProfiles(Map<Long, Profile> profiles) {
@@ -121,11 +122,11 @@ public class Usuario implements Serializable{
 		this.identidad = identidad;
 	}
 
-	public Map<Long, Opcion> getOpciones() {
-		return opciones;
+	public Map<String, Object> getOpciones() {
+		return (opciones == null) ? new HashMap<String, Object>() : opciones;
 	}
 
-	public void setOpciones(Map<Long, Opcion> opciones) {
+	public void setOpciones(Map<String, Object> opciones) {
 		this.opciones = opciones;
 	}
 	

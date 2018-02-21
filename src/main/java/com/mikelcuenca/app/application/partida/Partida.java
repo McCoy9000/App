@@ -1,5 +1,6 @@
 package com.mikelcuenca.app.application.partida;
 
+import java.math.BigInteger;
 import java.util.Set;
 
 import javax.persistence.GeneratedValue;
@@ -15,9 +16,37 @@ public class Partida {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long partidaId;
+	private BigInteger partidaId;
 	@ManyToOne
 	private Director director;
 	@ManyToMany(mappedBy="partidas")
 	private Set<Jugador> jugadores;
+	
+	
+	protected Partida() {
+		
+	}
+	
+	public Partida of() {
+		return new Partida();
+	}
+	
+	
+	public BigInteger getPartidaId() {
+		return partidaId;
+	}
+	public Director getDirector() {
+		return director;
+	}
+	public void setDirector(Director director) {
+		this.director = director;
+	}
+	public Set<Jugador> getJugadores() {
+		return jugadores;
+	}
+	public void setJugadores(Set<Jugador> jugadores) {
+		this.jugadores = jugadores;
+	}
+	
+	
 }

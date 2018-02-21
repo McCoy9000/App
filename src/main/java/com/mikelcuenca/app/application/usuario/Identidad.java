@@ -2,24 +2,34 @@ package com.mikelcuenca.app.application.usuario;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mikelcuenca.app.application.generic.Email;
-import com.mikelcuenca.app.application.generic.Imagen;
-
+import com.mikelcuenca.app.application.contacto.Contacto;
+import com.mikelcuenca.app.application.contacto.Email;
+import com.mikelcuenca.app.application.generic.Nombre;
+import com.mikelcuenca.app.application.generic.NombrePersona;
+import com.mikelcuenca.app.application.imagen.Imagen;
 @Entity
 public class Identidad implements Serializable {
 
@@ -33,98 +43,107 @@ public class Identidad implements Serializable {
 	@NotNull
 	@Column(nullable=false, unique=true)
 	private UUID codIdentidad;
-	@NotNull
-	@Column(nullable=false, unique=true)
-	private String nombre;
-	private String apellidos;
+	@Embedded
+	private Nombre nombre;
+	@OneToMany
+	private List<Contacto> contactos;
+	@Column
+	private String descripcion;
 	@OneToMany
 	private Set<Usuario> usuarios;
-	private String alias;
-	@Embedded
-	private Email email;
-	private String descripcion;
-	@Embedded
-	private Imagen imagen;
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable(name="USUARIOS_PROFILES")
+	private Map<String, Imagen> imagenes;
 	
 	protected Identidad() {
 	}
 
-	public static Identidad of(String email) {
+	public static Identidad ofName(String nombre) {
 		Identidad identidad = new Identidad();
 		identidad.codIdentidad = UUID.randomUUID();
-		identidad.email = Email.of(email);
+		identidad.nombre = NombrePersona.ofName(nombre);
+		identidad.contactos = new ArrayList<Contacto>();
 		return identidad; 
 	}
 	
-	protected Identidad(Email email) {
-		this.email = email;
+	public static Identidad ofEmail(String email) {
+		Identidad identidad = new Identidad();
+		identidad.codIdentidad = UUID.randomUUID();
+		identidad.nombre = NombrePersona.of();
+		identidad.contactos = new ArrayList<Contacto>();
+		identidad.contactos.add(Email.of(email));
+		return identidad; 
+	}
+	
+	public UUID getCodIdentidad() {
+		return codIdentidad;
 	}
 
-	protected String getNombre() {
+	public void setCodIdentidad(UUID codIdentidad) {
+		this.codIdentidad = codIdentidad;
+	}
+
+	public Nombre getNombre() {
 		return nombre;
 	}
 
-	protected void setNombre(String nombre) {
+	public void setNombre(Nombre nombre) {
 		this.nombre = nombre;
 	}
 
-	protected String getApellidos() {
-		return apellidos;
+	public List<Contacto> getContactos() {
+		return (contactos == null) ? new ArrayList<Contacto>() : contactos;
+	}
+	public void setContactos(List<Contacto> contactos) {
+		this.contactos = contactos;
 	}
 
-	protected void setApellidos(String apellidos) {
-		this.apellidos = apellidos;
-	}
-	
-	protected String getAlias() {
-		return null;
-	}
-
-	protected void setAlias(String alias) {
-		this.alias = alias;
-	}
-
-	protected Email getEmail() {
-		return email;
-	}
-
-	protected void setEmail(Email email) {
-		this.email = email;
-	}
-
-	protected String getDescripcion() {
+	public String getDescripcion() {
 		return descripcion;
 	}
 
-	protected void setDescripcion(String descripcion) {
+	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
 
-	protected Imagen getImagen() {
-		return imagen;
+	public Set<Usuario> getUsuarios() {
+		return (usuarios == null) ? new HashSet<Usuario>() : usuarios;
 	}
 
-	protected void setImagen(Imagen imagen) {
-		this.imagen = imagen;
+	public void setUsuarios(Set<Usuario> usuarios) {
+		this.usuarios = usuarios;
 	}
 
-	protected String getEmailAddress() {
-		return email.getEmailAddress();
+	public Map<String, Imagen> getImagenes() {
+		return (imagenes == null) ? new HashMap<String, Imagen>() : imagenes;
 	}
 
-	protected String getImagenUrl() {
-		return imagen.getImagenUrl().getUrlAddress();
+	public void setImagenes(Map<String, Imagen> imagenes) {
+		this.imagenes = imagenes;
 	}
 
-	protected String getNombreCompleto() {
-		return nombre + " " + apellidos;
+	protected String getContactoPrincipal() {
+		if (contactos == null || contactos.get(0) == null) {
+			return "No hay contactos registrados";
+		}
+		for (Contacto contacto : contactos) {
+			if (true == contacto.isPrincipal()) {
+				return contacto.getContactoCompleto();
+			}
+		}
+		return contactos.get(0).getContactoCompleto();
 	}
-	
-	protected String getCompletoNombre() {
-		return apellidos + ", " + nombre;
+
+	protected String getImage(String alias) {
+		try {
+			return imagenes.get(alias).getImagenUrl().getUrlAddress();
+		} catch (NullPointerException npe) {
+			logger.info("NullPointerException caught. Empty image url returned");
+			return "No URL available";
+		}
 	}
-	
-	public String toString() {
-		return getNombreCompleto();
+
+	public String nombreCompleto() {
+		return getNombre().getNombreCompleto();
 	}
 }
