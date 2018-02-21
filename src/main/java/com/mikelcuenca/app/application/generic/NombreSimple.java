@@ -7,6 +7,8 @@ import org.apache.commons.text.WordUtils;
 @Embeddable
 public class NombreSimple extends Nombre {
 
+	private String nombre = this.identificacion;
+	
 	protected NombreSimple() {
 	
 	}
@@ -15,7 +17,11 @@ public class NombreSimple extends Nombre {
 		this.identificacion = nombre;
 	}
 
-	public NombreSimple of(String nombre) {
+	public static NombreSimple of() {
+		return new NombreSimple();
+	}
+	
+	public static NombreSimple of(String nombre) {
 		return new NombreSimple(nombre);
 	}
 

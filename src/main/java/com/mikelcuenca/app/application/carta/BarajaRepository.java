@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface BarajaRepository extends JpaRepository<Baraja, BigInteger> {
 	
-	public Baraja getByBarajaNombre();
+//	public Baraja getByBarajaNombre();
 	
 	@Query("SELECT 1 FROM Baraja WHERE rownum = 1")
 	public Object findFirst();

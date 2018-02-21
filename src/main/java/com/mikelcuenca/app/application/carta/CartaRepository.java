@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface CartaRepository extends JpaRepository<Carta, BigInteger> {
 	
-	public Carta getByCartaNombre();
+//	public Carta getByCartaNombre();
 	
 	@Query("SELECT 1 FROM Carta WHERE rownum = 1")
 	public Object findFirst();

@@ -1,11 +1,14 @@
 package com.mikelcuenca.app.application.centro;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,6 +18,7 @@ import javax.validation.constraints.NotNull;
 
 import com.mikelcuenca.app.application.contacto.Contacto;
 import com.mikelcuenca.app.application.generic.Nombre;
+import com.mikelcuenca.app.application.generic.NombrePersona;
 import com.mikelcuenca.app.application.partida.Partida;
 
 @Entity
@@ -26,8 +30,9 @@ public class Centro {
 	@NotNull
 	@Column(nullable=false, unique=true)
 	private UUID codCentro = UUID.randomUUID();
-	@Column
-	private Nombre centroNombre;
+	@Embedded
+	private NombrePersona centroNombre;
+	//TODO Hacer nomPersonaJuridica
 	@Column
 	private String centroDescripcion;
 	@OneToMany
@@ -65,7 +70,7 @@ public class Centro {
 		return centroNombre;
 	}
 
-	public void setCentroNombre(Nombre centroNombre) {
+	public void setCentroNombre(NombrePersona centroNombre) {
 		this.centroNombre = centroNombre;
 	}
 
@@ -81,7 +86,7 @@ public class Centro {
 		return contactos;
 	}
 
-	public void setContactos(List<Contacto> contactos) {
+	public void setContactos(ArrayList<Contacto> contactos) {
 		this.contactos = contactos;
 	}
 
@@ -89,7 +94,7 @@ public class Centro {
 		return partidas;
 	}
 
-	public void setPartidas(Set<Partida> partidas) {
+	public void setPartidas(HashSet<Partida> partidas) {
 		this.partidas = partidas;
 	}
 	

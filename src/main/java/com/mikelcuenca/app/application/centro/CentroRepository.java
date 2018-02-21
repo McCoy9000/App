@@ -9,7 +9,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource
 public interface CentroRepository extends JpaRepository<Centro, BigInteger> {
 
-	public Centro getByCentroNombre(String centroNombre);
+//	public Centro getByCentroNombre(String centroNombre);
 
 	@Query("SELECT 1 FROM Centro WHERE rownum = 1")
 	public Object findFirst();

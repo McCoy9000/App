@@ -18,6 +18,7 @@ import javax.persistence.Index;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKey;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -48,16 +49,15 @@ public class Usuario implements Serializable{
 	private String password;
 	//TODO ajustar politicas de carga
 	@ManyToMany(fetch=FetchType.EAGER)
-	@JoinTable(name="USUARIOS_ROLES")
+	@JoinTable(name="Usuarios_Roles")
 	private Set<Role> roles;
 	@ManyToMany(fetch=FetchType.EAGER)
-	@JoinTable(name="USUARIOS_PROFILES")
-	private Map<Long, Profile> profiles;
+	@JoinTable(name="Usuarios_Profiles")
+	private Set<Profile> profiles;
 	@ManyToOne
 	private Identidad identidad;
-	@ManyToMany(fetch=FetchType.EAGER)
-	@JoinTable(name="USUARIOS_OPCIONES")
-	private Map<String, Object> opciones;
+	@Column
+	private HashMap<String, Object> opciones;
 	
 	protected Usuario() {
 	}
@@ -106,11 +106,11 @@ public class Usuario implements Serializable{
 		this.roles = roles;
 	}
 
-	public Map<Long, Profile> getProfiles() {
-		return (profiles == null) ? new HashMap<Long, Profile>() : profiles;
+	public Set<Profile> getProfiles() {
+		return (profiles == null) ? new HashSet<Profile>() : profiles;
 	}
 
-	public void setProfiles(Map<Long, Profile> profiles) {
+	public void setProfiles(Set<Profile> profiles) {
 		this.profiles = profiles;
 	}
 
@@ -126,7 +126,7 @@ public class Usuario implements Serializable{
 		return (opciones == null) ? new HashMap<String, Object>() : opciones;
 	}
 
-	public void setOpciones(Map<String, Object> opciones) {
+	public void setOpciones(HashMap<String, Object> opciones) {
 		this.opciones = opciones;
 	}
 	

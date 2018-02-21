@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface MazoRepository extends JpaRepository<Mazo, BigInteger> {
 	
-	public Mazo getByMazoId();
+//	public Mazo getByMazoId();
 	
 	@Query("SELECT 1 FROM Mazo WHERE rownum = 1")
 	public Object findFirst();

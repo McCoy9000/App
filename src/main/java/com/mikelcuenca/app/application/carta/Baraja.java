@@ -1,28 +1,39 @@
 package com.mikelcuenca.app.application.carta;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
 
 import com.mikelcuenca.app.application.generic.Nombre;
+import com.mikelcuenca.app.application.generic.NombrePersona;
 
+@Entity
 public class Baraja {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private BigInteger barajaId;
-	@Column
-	private Nombre barajaNombre;
+	@NotNull
+	@Column(nullable=false, unique=true)
+	private UUID codCarta = UUID.randomUUID();
+	@Embedded
+	private NombrePersona barajaNombre;
 	@Column
 	private String barajaDescripcion;
 	@ManyToMany
 	@JoinTable(name="BARAJAS_CARTAS")
-	private Carta cartas;
+	private List<Carta> cartas;
 	
 	protected Baraja() {
 		
@@ -44,7 +55,7 @@ public class Baraja {
 		return barajaNombre;
 	}
 
-	public void setBarajaNombre(Nombre barajaNombre) {
+	public void setBarajaNombre(NombrePersona barajaNombre) {
 		this.barajaNombre = barajaNombre;
 	}
 
@@ -56,11 +67,11 @@ public class Baraja {
 		this.barajaDescripcion = barajaDescripcion;
 	}
 
-	public Carta getCartas() {
+	public List<Carta> getCartas() {
 		return cartas;
 	}
 
-	public void setCartas(Carta cartas) {
+	public void setCartas(ArrayList<Carta> cartas) {
 		this.cartas = cartas;
 	}
 	

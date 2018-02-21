@@ -1,6 +1,8 @@
 package com.mikelcuenca.app.application.carta;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +24,7 @@ public class Mazo {
 	private Jugador jugador;
 	@ManyToMany
 	@JoinTable(name="MAZOS_CARTAS")
-	private Carta cartas;
+	private List<Carta> cartas;
 	
 	protected Mazo() {
 		
@@ -44,11 +46,11 @@ public class Mazo {
 		this.jugador = jugador;
 	}
 
-	public Carta getCartas() {
+	public List<Carta> getCartas() {
 		return cartas;
 	}
 
-	public void setCartas(Carta cartas) {
+	public void setCartas(ArrayList<Carta> cartas) {
 		this.cartas = cartas;
 	}
 	

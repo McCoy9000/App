@@ -14,6 +14,7 @@ import javax.persistence.Lob;
 import javax.validation.constraints.NotNull;
 
 import com.mikelcuenca.app.application.generic.Nombre;
+import com.mikelcuenca.app.application.generic.NombreSimple;
 import com.mikelcuenca.app.application.generic.URL;
 
 @Entity
@@ -27,8 +28,8 @@ public class Imagen implements Serializable {
 	@NotNull
 	@Column(nullable=false, unique=true)
 	private UUID codImagen = UUID.randomUUID();
-	@Column
-	private Nombre imagenNombre;
+	@Embedded
+	private NombreSimple imagenNombre;
 	@Column 
 	private String imagenDescripcion;
 	@Lob
@@ -37,6 +38,7 @@ public class Imagen implements Serializable {
 	private URL imagenUrl;
 	@Column
 	private String imagenFormat;
+	
 	
 	protected Imagen() {
 		
@@ -63,7 +65,7 @@ public class Imagen implements Serializable {
 		return imagenNombre;
 	}
 
-	public void setImagenNombre(Nombre imagenNombre) {
+	public void setImagenNombre(NombreSimple imagenNombre) {
 		this.imagenNombre = imagenNombre;
 	}
 

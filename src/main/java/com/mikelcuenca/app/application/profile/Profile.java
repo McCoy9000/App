@@ -1,6 +1,9 @@
 package com.mikelcuenca.app.application.profile;
 
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -66,11 +69,11 @@ public class Profile {
 		this.profileDescription = profileDescription;
 	}
 
-	public Set<Usuario> getUsuarios() {
+	public Set <Usuario> getUsuarios() {
 		return usuarios;
 	}
 
-	public void setUsuarios(Set<Usuario> usuarios) {
+	public void setUsuarios(HashSet<Usuario> usuarios) {
 		this.usuarios = usuarios;
 	}
 

@@ -1,11 +1,17 @@
 package com.mikelcuenca.app.application.carta;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +22,7 @@ import javax.validation.constraints.NotNull;
 import com.mikelcuenca.app.application.generic.Nombre;
 import com.mikelcuenca.app.application.imagen.Imagen;
 
+@Entity
 public class Carta {
 
 	@Id
@@ -32,11 +39,11 @@ public class Carta {
 	@JoinTable(name="CARTAS_IMAGENES")
 	private Map<String, Imagen> imagenes;
 	@Column
-	private Map<String, Object> opciones;
+	private HashSet<String> opciones;
 	@ManyToMany(mappedBy="cartas")
-	private Mazo mazos;
+	private List<Mazo> mazos;
 	@ManyToMany(mappedBy="cartas")
-	private Baraja barajas;
+	private List<Baraja> barajas;
 	
 	protected Carta() {
 		
@@ -78,31 +85,31 @@ public class Carta {
 		return imagenes;
 	}
 
-	public void setImagenes(Map<String, Imagen> imagenes) {
+	public void setImagenes(HashMap<String, Imagen> imagenes) {
 		this.imagenes = imagenes;
 	}
 
-	public Map<String, Object> getOpciones() {
+	public Set<String> getOpciones() {
 		return opciones;
 	}
 
-	public void setOpciones(Map<String, Object> opciones) {
+	public void setOpciones(HashSet<String> opciones) {
 		this.opciones = opciones;
 	}
 
-	public Mazo getMazos() {
+	public List<Mazo> getMazos() {
 		return mazos;
 	}
 
-	public void setMazos(Mazo mazos) {
+	public void setMazos(ArrayList<Mazo> mazos) {
 		this.mazos = mazos;
 	}
 
-	public Baraja getBarajas() {
+	public List<Baraja> getBarajas() {
 		return barajas;
 	}
 
-	public void setBarajas(Baraja barajas) {
+	public void setBarajas(ArrayList<Baraja> barajas) {
 		this.barajas = barajas;
 	}
 	
