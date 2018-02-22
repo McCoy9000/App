@@ -16,7 +16,7 @@ import com.mikelcuenca.app.infastructure.utils.Messages;
 
 @RestController
 @RequestMapping(value="/admin/profiles")
-public class ProfileController {
+public class ProfilController {
 	
 	@Autowired
 	ProfileService profileService;
