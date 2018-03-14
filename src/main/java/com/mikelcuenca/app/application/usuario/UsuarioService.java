@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.GrantedAuthority;
 
 public interface UsuarioService {
 
@@ -23,4 +24,6 @@ public interface UsuarioService {
 	public Usuario delete(Usuario usuario);
 	
 	public Usuario delete(BigInteger id);
+	
+	public void grantAuthority(Usuario usuario, GrantedAuthority authority);
 }

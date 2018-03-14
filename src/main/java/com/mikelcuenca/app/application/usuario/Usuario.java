@@ -18,7 +18,6 @@ import javax.persistence.Index;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapKey;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -70,10 +69,6 @@ public class Usuario implements Serializable{
 		return usuarioId;
 	}
 
-	public void setUsuarioId(BigInteger usuarioId) {
-		this.usuarioId = usuarioId;
-	}
-
 	public UUID getCodUsuario() {
 		return codUsuario;
 	}
@@ -102,8 +97,8 @@ public class Usuario implements Serializable{
 		return (roles == null) ? new HashSet<Role>() : roles;
 	}
 
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
+	public void setRoles(Set<Role> role) {
+		this.roles = role;
 	}
 
 	public Set<Profile> getProfiles() {
@@ -129,5 +124,4 @@ public class Usuario implements Serializable{
 	public void setOpciones(HashMap<String, Object> opciones) {
 		this.opciones = opciones;
 	}
-	
 }

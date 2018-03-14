@@ -46,7 +46,6 @@ public class DataLoader implements ApplicationRunner {
 	public void run(ApplicationArguments args) throws Exception {
 		
 		List<Permission> permissions = new ArrayList<>();
-		List<Role> roles = new ArrayList<>();
 
 		Object first = permissionRepository.findFirst();
 
@@ -79,13 +78,13 @@ public class DataLoader implements ApplicationRunner {
 		if(first == null) {
 			logger.warn(messages.get("startup.bbdd.noRoles"));
 			
-			roles = new ArrayList<Role>();
+			List<Role> roles = new ArrayList<Role>();
 			
-			String[][] rols = new String [][] {{messages.get("roles.root"), messages.get("roles.root.description")}
-												, {messages.get("roles.admin"), messages.get("roles.admin.description")}
-												, {messages.get("roles.user"), messages.get("roles.user.description")}
-												, {messages.get("roles.director"), messages.get("roles.director.description")}
-												, {messages.get("roles.jugador"), messages.get("roles.jugador.description")}};
+			String[][] rols = new String [][] {{messages.get("role.root"), messages.get("role.root.description")}
+												, {messages.get("role.admin"), messages.get("role.admin.description")}
+												, {messages.get("role.user"), messages.get("role.user.description")}
+												, {messages.get("role.director"), messages.get("role.director.description")}
+												, {messages.get("role.jugador"), messages.get("role.jugador.description")}};
 			
 			
 			for (int i = 0;i<rols.length;i++) {

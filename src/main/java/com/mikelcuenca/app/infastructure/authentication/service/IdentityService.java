@@ -78,11 +78,11 @@ public class IdentityService implements UserDetailsService {
 		Set<Role> roles = usuario.getRoles();
 		List<Privilege> authorities = new ArrayList<Privilege>();
 
-		for (Role role : roles) {
+		for (Role pErmission : roles) {
 			Privilege privilege = new Privilege();
-			privilege.setName(role.getRolename());
+			privilege.setName(pErmission.getRolename());
 			authorities.add(privilege);
-			for(Permission permission : role.getPermissions()) {
+			for(Permission permission : pErmission.getPermissions()) {
 				Privilege priv = new Privilege();
 				priv.setName(permission.getPermissionName());
 				authorities.add(priv);

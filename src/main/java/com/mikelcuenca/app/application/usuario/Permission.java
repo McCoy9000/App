@@ -39,10 +39,18 @@ public class Permission implements Serializable {
 	public Permission() {
 	}
 	
+	public Permission(String authname) {
+		this.permissionName=authname;
+	}
+
 	public static Permission of() {
 		return new Permission();
 	}
 	
+	public static Permission of(String authname) {
+		return new Permission(authname);
+	}
+
 	@Override
 	public String toString() {
 		return "Permission [codPermission=" + codPermission + ", permissionName=" + permissionName + ", description="
@@ -66,6 +74,4 @@ public class Permission implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
 }

@@ -42,17 +42,25 @@ public class Role implements Serializable {
 	@JoinTable(name="ROLES_PERMISSIONS")
     private Set<Permission> permissions;
  
-	public Role() {
+	protected Role() {
 		
 	}
 	
+	protected Role(String authname) {
+		this.rolename=authname;
+	}
+
 	public static Role of() {
 		return new Role();
+	}
+
+	public static Role of(String authname) {
+		return new Role(authname);
 	}
 	
 	@Override
 	public String toString() {
-		return "Role [roleId=" + roleId + ", rolename=" + rolename + ", description=" + description + ", permissions="
+		return "Permission [roleId=" + roleId + ", rolename=" + rolename + ", description=" + description + ", permissions="
 				+ permissions + "]";
 	}
 
@@ -87,4 +95,5 @@ public class Role implements Serializable {
     public void setPermissions(Set<Permission> privileges) {
         this.permissions = privileges;
     }
+
 }

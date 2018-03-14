@@ -1,16 +1,22 @@
 package com.mikelcuenca.app.application.usuario;
 
 import java.math.BigInteger;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
+import javax.persistence.EntityNotFoundException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import com.mikelcuenca.app.infastructure._exception.model.GenericException;
@@ -24,6 +30,12 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	@Autowired
 	UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	RoleService roleService;
+	
+	@Autowired
+	PermissionService permissionService;
 	
 	@Autowired
 	Messages messages;
@@ -94,5 +106,45 @@ public class UsuarioServiceImpl implements UsuarioService{
 			return target.get();
 		} 
 		throw new GenericException(messages.get("usuario.error.actualizar.inexistente"), new Throwable());
+	}
+	
+	public void grantAuthority(Usuario usuario, GrantedAuthority authority) {
+		String authname = authority.getAuthority();
+		
+		if(authname == null) {
+			throw new GenericException("error.usuario.complexAuthority", new Throwable());
+		}
+		
+		if(authname.startsWith("ROLE_")) {
+			Role rol = Role.of(authname);
+			try {
+				rol = roleService.get(rol);
+			} catch (IncorrectResultSizeDataAccessException e) {
+			throw new GenericException("error.usuario.grantAuthority", e);
+			} catch (EntityNotFoundException e) {
+				throw new GenericException("error.usuario.grantAuthority", e);
+			}
+			usuario.getRoles().add(rol);
+			this.update(usuario);
+		} else {
+			Permission permission = Permission.of(authname);
+			try {
+			permission = permissionService.get(permission);
+			} catch (GenericException e) {
+				throw new GenericException("error.usuario.grantAuthority", e);
+			}
+			Role rol = Role.of("ROLE_" + usuario.getUsername());
+			try {
+				rol = roleService.get(rol);
+			} catch (GenericException e) {
+				throw new GenericException("error.usuario.grantAuthority", e);
+			}
+			Set<Permission> permissions = new HashSet<Permission>();
+			permissions.add(permission);
+			rol.setPermissions(permissions);
+			roleService.add(rol);
+			usuario.getRoles().add(Role.of(authname));
+			this.update(usuario);
+		}
 	}
 }

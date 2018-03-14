@@ -2,11 +2,13 @@ package com.mikelcuenca.app.application.usuario;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
@@ -58,6 +60,25 @@ public class PermissionServiceImpl implements PermissionService{
 	@Override
 	public Permission add(Permission permission) {
 		return permissionRepository.saveAndFlush(permission);
+	}
+	
+	@Override
+	public Permission get(Permission permission) {
+		Permission perm = Permission.of();
+		
+		if (permission.getPermissionId() != null) {
+			perm = permissionRepository.getOne(permission.getPermissionId());
+		} else if (permission.getPermissionName() != null) {
+			perm = permissionRepository.getByPermissionName(permission.getPermissionName());
+		} else {
+			Example<Permission> example = Example.of(permission);
+			try {
+				perm = permissionRepository.findOne(example).get();
+			} catch (NoSuchElementException|IncorrectResultSizeDataAccessException e) {
+				throw new GenericException(messages.get("permission.error.get"), e);
+			}
+		}
+		return perm;
 	}
 	
 	@Override

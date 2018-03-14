@@ -77,6 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/resources/**", "/signup", "/about, /accessDenied").permitAll()  
 			.antMatchers("/**").hasAnyRole("USER", "ADMIN", "ROOT")
 			.anyRequest().authenticated()
+			.and().httpBasic()
 			.and()
 		.formLogin()
 			.loginPage("/login")
@@ -152,7 +153,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.setAllowedOrigins(Arrays.asList("http://localhost"));
-		configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+		configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;

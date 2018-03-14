@@ -1,9 +1,7 @@
 package com.mikelcuenca.app.application.profile;
 
 import java.math.BigInteger;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.Column;

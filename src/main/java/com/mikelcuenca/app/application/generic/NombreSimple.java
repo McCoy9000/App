@@ -14,7 +14,7 @@ public class NombreSimple extends Nombre {
 	}
 	
 	protected NombreSimple(String nombre) {
-		this.identificacion = nombre;
+		this.nombre = nombre;
 	}
 
 	public static NombreSimple of() {
@@ -27,12 +27,12 @@ public class NombreSimple extends Nombre {
 
 	@Override
 	public String getIdentificacion() {
-		return identificacion;
+		return nombre;
 	}
 
 	@Override
 	public String getNombre() {
-		return identificacion;
+		return nombre;
 	}
 
 	@Override

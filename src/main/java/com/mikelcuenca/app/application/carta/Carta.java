@@ -1,10 +1,8 @@
 package com.mikelcuenca.app.application.carta;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -41,9 +39,9 @@ public class Carta {
 	@Column
 	private HashSet<String> opciones;
 	@ManyToMany(mappedBy="cartas")
-	private List<Mazo> mazos;
+	private Set<Mazo> mazos;
 	@ManyToMany(mappedBy="cartas")
-	private List<Baraja> barajas;
+	private Set<Baraja> barajas;
 	
 	protected Carta() {
 		
@@ -97,19 +95,19 @@ public class Carta {
 		this.opciones = opciones;
 	}
 
-	public List<Mazo> getMazos() {
+	public Set<Mazo> getMazos() {
 		return mazos;
 	}
 
-	public void setMazos(ArrayList<Mazo> mazos) {
+	public void setMazos(Set<Mazo> mazos) {
 		this.mazos = mazos;
 	}
 
-	public List<Baraja> getBarajas() {
+	public Set<Baraja> getBarajas() {
 		return barajas;
 	}
 
-	public void setBarajas(ArrayList<Baraja> barajas) {
+	public void setBarajas(Set<Baraja> barajas) {
 		this.barajas = barajas;
 	}
 	

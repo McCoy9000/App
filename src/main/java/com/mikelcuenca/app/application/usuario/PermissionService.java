@@ -18,6 +18,8 @@ public interface PermissionService {
 
 	public Permission add(Permission permission);
 
+	public Permission get(Permission permission);
+	
 	public Permission update(Permission permission);
 
 	public Permission delete(Permission permission);
